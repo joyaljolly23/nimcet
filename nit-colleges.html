@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>NIMCET PrepHub — NITs Accepting NIMCET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .nit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;}
+    .nit-card{background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden;transition:all .25s;}
+    .nit-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--teal-light);}
+    .nit-header{background:var(--grad-hero);color:#fff;padding:1.4rem 1.6rem;position:relative;overflow:hidden;}
+    .nit-header::after{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:rgba(255,255,255,.05);border-radius:50%;}
+    .nit-rank-badge{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 12px;font-size:.68rem;font-weight:800;letter-spacing:.5px;}
+    .nit-title{font-size:1.05rem;font-weight:800;letter-spacing:-.2px;margin-bottom:3px;}
+    .nit-sub{font-size:.78rem;opacity:.75;display:flex;align-items:center;gap:5px;}
+    .nit-body{padding:1.4rem 1.6rem;}
+
+    /* STAT ROW */
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1.2rem;}
+    .s-box{background:var(--surface);border-radius:10px;padding:.7rem .5rem;text-align:center;border:1px solid var(--border);}
+    .s-val{font-size:.95rem;font-weight:800;color:var(--teal);letter-spacing:-.3px;line-height:1;}
+    .s-lbl{font-size:.62rem;color:var(--text-muted);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.3px;}
+
+    /* CUTOFF TABLE */
+    .cutoff-title{font-size:.78rem;font-weight:800;color:var(--text);margin-bottom:.5rem;display:flex;align-items:center;gap:6px;}
+    .cutoff-title i{color:var(--teal);}
+    .cut-table{width:100%;border-collapse:collapse;font-size:.75rem;margin-bottom:1.1rem;}
+    .cut-table th{background:var(--surface);padding:6px 8px;text-align:left;font-weight:700;color:var(--text-muted);border-bottom:1px solid var(--border);}
+    .cut-table td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text);}
+    .cut-table tr:last-child td{border-bottom:none;}
+    .cut-table tr:hover td{background:var(--accent);}
+    .cat-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:700;}
+
+    /* TAGS */
+    .tag-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem;}
+    .ntag{background:var(--accent2);color:var(--teal);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid rgba(13,148,136,.15);}
+
+    /* FEES BLOCK */
+    .fees-block{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border-radius:10px;padding:.9rem 1rem;margin-bottom:1rem;border:1px solid rgba(13,148,136,.15);}
+    .fees-block .fb-title{font-size:.73rem;font-weight:800;color:var(--teal);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.4px;}
+    .fees-row{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;padding:3px 0;}
+    .fees-row span:first-child{color:var(--text-muted);font-weight:500;}
+    .fees-row span:last-child{color:var(--text);font-weight:700;}
+    .fees-total{border-top:1px dashed rgba(13,148,136,.3);margin-top:.4rem;padding-top:.4rem;}
+    .fees-total span:last-child{color:var(--teal);font-size:.85rem;}
+
+    /* SPECIALTY */
+    .spec-block{font-size:.8rem;color:var(--text-muted);line-height:1.65;padding-top:.9rem;border-top:1px solid var(--border);}
+    .spec-block strong{color:var(--text);font-weight:700;}
+
+    /* QUALIFY BAR */
+    .qualify-bar{background:var(--surface);border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;}
+    .qb-item{text-align:center;}
+    .qb-val{font-size:.88rem;font-weight:800;color:var(--green);}
+    .qb-lbl{font-size:.62rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+
+    /* FILTER */
+    .filter-bar{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;}
+    .f-btn{background:#fff;border:1.5px solid var(--border);color:var(--text-muted);padding:7px 18px;border-radius:30px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;}
+    .f-btn.active,.f-btn:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+    /* INFO BOX */
+    .info-box{background:linear-gradient(135deg,#0a1628,#0f4a47);border-radius:14px;color:#fff;padding:1.75rem 2rem;margin-bottom:2.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;}
+    .ib-item{text-align:center;}
+    .ib-val{font-size:1.6rem;font-weight:900;color:var(--teal-glow);letter-spacing:-1px;}
+    .ib-lbl{font-size:.75rem;opacity:.7;margin-top:2px;font-weight:500;}
+
+    .score-tip{background:#fff8e1;border:1px solid #fdd835;border-radius:10px;padding:.85rem 1rem;margin-bottom:2rem;font-size:.84rem;color:#5d4037;display:flex;align-items:flex-start;gap:8px;}
+    .score-tip i{font-size:1.1rem;color:#f59e0b;flex-shrink:0;margin-top:1px;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><i class="ti ti-school"></i> NIMCET <span>PrepHub</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="syllabus.html">Syllabus</a>
+      <a href="notes.html">Notes</a>
+      <a href="practice.html">Practice</a>
+      <a href="papers.html">Papers</a>
+      <a href="mock-test.html">Mock Test</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <button class="nav-cta">Start Prep &rarr;</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1><i class="ti ti-building"></i> NITs Accepting NIMCET</h1>
+  <p>Complete guide — fees, MCA seats, cutoff ranks, qualifying marks & specialties for all 11 participating NITs</p>
+</div>
+
+<div class="section-wrap">
+<div class="section">
+
+  <!-- OVERVIEW INFO -->
+  <div class="info-box">
+    <div class="ib-item"><div class="ib-val">11</div><div class="ib-lbl">NITs + 1 IIIT</div></div>
+    <div class="ib-item"><div class="ib-val">1,285</div><div class="ib-lbl">Total MCA Seats (2025)</div></div>
+    <div class="ib-item"><div class="ib-val">480</div><div class="ib-lbl">Max Exam Marks</div></div>
+    <div class="ib-item"><div class="ib-val">240+</div><div class="ib-lbl">Min Qualifying (Gen)</div></div>
+    <div class="ib-item"><div class="ib-val">₹1.9L–₹3.5L</div><div class="ib-lbl">Total Course Fee Range</div></div>
+    <div class="ib-item"><div class="ib-val">3 Yrs</div><div class="ib-lbl">MCA Duration (6 Sem)</div></div>
+  </div>
+
+  <!-- SCORE TIP -->
+  <div class="score-tip">
+    <i class="ti ti-bulb"></i>
+    <div><strong>Qualifying Marks:</strong> General — 240+ raw marks (50%), SC/ST — 216+ (45%), PwD — 192+ (40%) out of 480. Weighted score out of 1000 is used for ranking: Maths ×3, CS ×2, Reasoning ×1.5, English ×1. <strong>Zero or negative marks in Maths = disqualified.</strong></div>
+  </div>
+
+  <!-- SORT/FILTER -->
+  <div class="filter-bar">
+    <button class="f-btn active" onclick="sortNITs(this,'nirf')"><i class="ti ti-trophy"></i> By NIRF Rank</button>
+    <button class="f-btn" onclick="sortNITs(this,'cutoff')"><i class="ti ti-chart-bar"></i> By Cutoff (Easiest)</button>
+    <button class="f-btn" onclick="sortNITs(this,'fees')"><i class="ti ti-coin"></i> By Fees (Lowest)</button>
+    <button class="f-btn" onclick="sortNITs(this,'seats')"><i class="ti ti-users"></i> By Seats (Most)</button>
+  </div>
+
+  <div class="nit-grid" id="nit-grid"></div>
+</div>
+</div>
+
+<footer>
+  <div class="logo" style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:.75rem"><i class="ti ti-school" style="color:#14b8a6"></i> NIMCET <span style="color:#14b8a6">PrepHub</span></div>
+  <p>Your one-stop destination for NIMCET 2026 preparation</p>
+  <div class="footer-links">
+    <a href="index.html">Home</a><a href="syllabus.html">Syllabus</a>
+    <a href="notes.html">Notes</a><a href="practice.html">Practice</a>
+    <a href="mock-test.html">Mock Tests</a><a href="pricing.html">Pricing</a>
+  </div>
+  <p style="margin-top:.5rem">Made with ❤️ for NIMCET aspirants across India</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const nits = [
+  {
+    name:'NIT Tiruchirappalli',short:'NIT Trichy',state:'Tamil Nadu',nirf:9,
+    seats:115,pkg:'18–22 LPA',totalFee:344000,
+    fees:{y1:'₹1,26,050',y2:'₹89,650',y3:'₹91,700',hostel:'~₹60,000/yr',total:'₹3.44 Lakhs'},
+    cutoff:{gen:'48–52',obc:'130–160',sc:'850–995',st:'1816–3155',ews:'60–75'},
+    minScore:'700+ (target)',
+    tags:['Best NIT','Top Placements','CSE','AI/ML','Data Science'],
+    specialty:'India\'s #1 NIT. Highest competition — only top 50 ranks secure a seat. Exceptional campus placements with Google, Amazon, Microsoft. 115 MCA seats — most among all NITs.',
+  },
+  {
+    name:'NIT Warangal',short:'NIT Warangal',state:'Telangana',nirf:18,
+    seats:73,pkg:'13–20 LPA',totalFee:280000,
+    fees:{y1:'₹1,13,000',y2:'~₹83,500',y3:'~₹83,500',hostel:'₹16,000/yr',total:'₹2.80 Lakhs'},
+    cutoff:{gen:'180–220',obc:'480–560',sc:'1900–2400',st:'3000–4200',ews:'220–280'},
+    minScore:'650+',
+    tags:['Top Research','CSE','ECE','AI','Fintech'],
+    specialty:'One of India\'s first 3 NITs. Strong research culture & innovation labs. Avg MCA package ₹13.5 LPA, highest ₹39.1 LPA. Excellent industry connect with Hyderabad IT corridor.',
+  },
+  {
+    name:'NIT Surathkal',short:'NIT Karnataka',state:'Karnataka',nirf:17,
+    seats:60,pkg:'15–18 LPA',totalFee:308000,
+    fees:{y1:'₹1,16,000',y2:'~₹96,000',y3:'~₹96,000',hostel:'~₹55,000/yr',total:'₹3.08 Lakhs'},
+    cutoff:{gen:'114–150',obc:'350–430',sc:'1300–1700',st:'2500–3500',ews:'140–180'},
+    minScore:'680+',
+    tags:['Bangalore Proximity','CSE','IT','Cloud','Cybersecurity'],
+    specialty:'Close to Bangalore tech hub — best NIT for IT sector placements. Strong CS & Software programs. Mid-semester exams 50M + end-sem 100M assessment pattern.',
+  },
+  {
+    name:'MNNIT Allahabad',short:'NIT Allahabad',state:'Uttar Pradesh',nirf:28,
+    seats:60,pkg:'14–18 LPA',totalFee:210000,
+    fees:{y1:'₹70,000',y2:'₹70,000',y3:'₹70,000',hostel:'~₹40,000/yr',total:'₹2.10 Lakhs'},
+    cutoff:{gen:'160–200',obc:'420–510',sc:'1700–2200',st:'2800–3800',ews:'195–250'},
+    minScore:'640+',
+    tags:['Affordable','CSE','MCA Specialist','North India'],
+    specialty:'Most affordable top NIT for MCA. Great value — ₹2.1L total fee for world-class education. Strong academic legacy in Prayagraj. Good placements in IT & consulting sectors.',
+  },
+  {
+    name:'MANIT Bhopal',short:'NIT Bhopal',state:'Madhya Pradesh',nirf:65,
+    seats:60,pkg:'8–15 LPA',totalFee:189000,
+    fees:{y1:'₹1,01,000',y2:'~₹44,000',y3:'~₹44,000',hostel:'~₹32,000/yr',total:'₹1.89 Lakhs'},
+    cutoff:{gen:'195–250',obc:'530–640',sc:'2200–2800',st:'4000–5200',ews:'240–300'},
+    minScore:'600+',
+    tags:['Cheapest NIT','Central India','CSE','Software','145+ Recruiters'],
+    specialty:'Lowest fees among all NIMCET NITs — only ₹1.89L total. Over 145 companies visit annually. 90%+ MCA placement rate. Average ₹8–9 LPA, top package ₹46 LPA.',
+  },
+  {
+    name:'NIT Raipur',short:'NIT Raipur',state:'Chhattisgarh',nirf:63,
+    seats:45,pkg:'12–15 LPA',totalFee:230000,
+    fees:{y1:'~₹95,000',y2:'~₹67,500',y3:'~₹67,500',hostel:'~₹40,000/yr',total:'~₹2.30 Lakhs'},
+    cutoff:{gen:'250–320',obc:'650–780',sc:'2500–3200',st:'4500–5800',ews:'300–380'},
+    minScore:'580+',
+    tags:['Biomedical','CSE','IoT','Good Infrastructure'],
+    specialty:'Strong in Biomedical Engineering & CSE. Growing tech ecosystem with good campus facilities. Emerging NIT with steady improvement in placement numbers year-on-year.',
+  },
+  {
+    name:'NIT Jamshedpur',short:'NIT Jamshedpur',state:'Jharkhand',nirf:57,
+    seats:45,pkg:'11–14 LPA',totalFee:220000,
+    fees:{y1:'~₹90,000',y2:'~₹65,000',y3:'~₹65,000',hostel:'~₹38,000/yr',total:'~₹2.20 Lakhs'},
+    cutoff:{gen:'282–350',obc:'700–850',sc:'2700–3400',st:'5000–6500',ews:'330–420'},
+    minScore:'570+',
+    tags:['Steel City','CSE','Production','Industrial Network'],
+    specialty:'Located in India\'s steel city — strong industry connections. Practical curriculum aligned with tech & core industries. Decent placements with growing IT sector hiring.',
+  },
+  {
+    name:'NIT Kurukshetra',short:'NIT Kurukshetra',state:'Haryana',nirf:59,
+    seats:60,pkg:'12–16 LPA',totalFee:240000,
+    fees:{y1:'~₹98,000',y2:'~₹71,000',y3:'~₹71,000',hostel:'~₹42,000/yr',total:'~₹2.40 Lakhs'},
+    cutoff:{gen:'270–340',obc:'680–820',sc:'2600–3300',st:'4800–6200',ews:'320–400'},
+    minScore:'570+',
+    tags:['Delhi NCR Access','CSE','ECE','Self-Financed Seats'],
+    specialty:'Best NIT for students targeting Delhi NCR companies — only 3 hrs away. Good ECE & CSE programs. Some self-financed seats available. Strong campus recruitment.',
+  },
+  {
+    name:'NIT Agartala',short:'NIT Agartala',state:'Tripura',nirf:61,
+    seats:30,pkg:'10–13 LPA',totalFee:171500,
+    fees:{y1:'₹51,825',y2:'₹39,425',y3:'~₹40,000',hostel:'~₹30,000/yr',total:'~₹1.71 Lakhs'},
+    cutoff:{gen:'759–819',obc:'849–939',sc:'3319–4663',st:'6429–7991',ews:'840–908'},
+    minScore:'500+',
+    tags:['Affordable','North-East India','ECE','CSE','Accessible'],
+    specialty:'Second cheapest NIT for MCA. Best option for students from North-East region. Relaxed competition (Gen cutoff ~819). Growing placement ties with East India IT sector.',
+  },
+  {
+    name:'NIT Patna',short:'NIT Patna',state:'Bihar',nirf:69,
+    seats:30,pkg:'8–11 LPA',totalFee:195000,
+    fees:{y1:'~₹80,000',y2:'~₹57,500',y3:'~₹57,500',hostel:'~₹35,000/yr',total:'~₹1.95 Lakhs'},
+    cutoff:{gen:'700–850',obc:'1400–1700',sc:'3800–4800',st:'6500–8500',ews:'780–950'},
+    minScore:'490+',
+    tags:['Oldest NIT','Bihar','Self-Financed Seats','CSE'],
+    specialty:'India\'s oldest NIT (est. 1886). Good for students wanting Bihar-based NIT. Lower competition than top NITs. Self-financed seats also available for MCA.',
+  },
+  {
+    name:'IIIT Bhopal',short:'IIIT Bhopal',state:'Madhya Pradesh',nirf:null,
+    seats:60,pkg:'8–12 LPA',totalFee:350000,
+    fees:{y1:'~₹1,40,000',y2:'~₹1,05,000',y3:'~₹1,05,000',hostel:'~₹45,000/yr',total:'~₹3.50 Lakhs'},
+    cutoff:{gen:'600–750',obc:'1200–1500',sc:'3200–4000',st:'5500–7000',ews:'680–850'},
+    minScore:'500+',
+    tags:['IIIT','AI Focus','IoT','Data Science','New Campus'],
+    specialty:'Only IIIT accepting NIMCET. Specialises in AI, IoT & Data Science MCA tracks. Higher fees than NITs but focused tech curriculum. Growing campus with modern infrastructure.',
+  },
+];
+
+function renderCards(data){
+  document.getElementById('nit-grid').innerHTML = data.map((n,idx)=>`
+    <div class="nit-card">
+      <div class="nit-header">
+        ${n.nirf?`<div class="nit-rank-badge">NIRF #${n.nirf}</div>`:`<div class="nit-rank-badge">IIIT</div>`}
+        <div class="nit-title">${n.short}</div>
+        <div class="nit-sub"><i class="ti ti-map-pin" style="font-size:11px"></i>${n.state}</div>
+      </div>
+      <div class="nit-body">
+
+        <!-- STAT ROW -->
+        <div class="stat-row">
+          <div class="s-box"><div class="s-val">${n.seats}</div><div class="s-lbl">Seats</div></div>
+          <div class="s-box"><div class="s-val" style="font-size:.75rem">${n.fees.total}</div><div class="s-lbl">Total Fee</div></div>
+          <div class="s-box"><div class="s-val" style="font-size:.78rem">${n.pkg}</div><div class="s-lbl">Avg Pkg</div></div>
+          <div class="s-box"><div class="s-val" style="font-size:.75rem">${n.minScore}</div><div class="s-lbl">Target Score</div></div>
+        </div>
+
+        <!-- TAGS -->
+        <div class="tag-row">${n.tags.map(t=>`<span class="ntag">${t}</span>`).join('')}</div>
+
+        <!-- FEES BREAKDOWN -->
+        <div class="fees-block">
+          <div class="fb-title"><i class="ti ti-coin"></i> MCA Fee Structure</div>
+          <div class="fees-row"><span>Year 1 (Sem 1+2)</span><span>${n.fees.y1}</span></div>
+          <div class="fees-row"><span>Year 2 (Sem 3+4)</span><span>${n.fees.y2}</span></div>
+          <div class="fees-row"><span>Year 3 (Sem 5+6)</span><span>${n.fees.y3}</span></div>
+          <div class="fees-row"><span>Hostel (approx)</span><span>${n.fees.hostel}</span></div>
+          <div class="fees-row fees-total"><span>Total Course Fee</span><span>${n.fees.total}</span></div>
+        </div>
+
+        <!-- CUTOFF -->
+        <div class="cutoff-title"><i class="ti ti-chart-bar"></i> NIMCET 2024 Closing Ranks (Gen Category: ${n.cutoff.gen})</div>
+        <table class="cut-table">
+          <thead><tr><th>Category</th><th>Closing Rank</th><th>Difficulty</th></tr></thead>
+          <tbody>
+            <tr><td><span class="cat-badge" style="background:#e8f0fe;color:#1a73e8">General</span></td><td><strong>${n.cutoff.gen}</strong></td><td>${getRankDiff(n.cutoff.gen,'gen')}</td></tr>
+            <tr><td><span class="cat-badge" style="background:#fff3e0;color:#e67e22">OBC-NCL</span></td><td>${n.cutoff.obc}</td><td>${getRankDiff(n.cutoff.obc,'obc')}</td></tr>
+            <tr><td><span class="cat-badge" style="background:#f3e5f5;color:#9c27b0">EWS</span></td><td>${n.cutoff.ews}</td><td>–</td></tr>
+            <tr><td><span class="cat-badge" style="background:#e8f5e9;color:#2e7d32">SC</span></td><td>${n.cutoff.sc}</td><td>–</td></tr>
+            <tr><td><span class="cat-badge" style="background:#fce4ec;color:#c62828">ST</span></td><td>${n.cutoff.st}</td><td>–</td></tr>
+          </tbody>
+        </table>
+
+        <!-- SPECIALTY -->
+        <div class="spec-block"><strong>About:</strong> ${n.specialty}</div>
+      </div>
+    </div>`).join('');
+}
+
+function getRankDiff(rankStr, cat){
+  const r = parseInt(rankStr.replace(/[^0-9]/g,''));
+  if(cat==='gen'){
+    if(r<100) return '🔴 Very High';
+    if(r<300) return '🟠 High';
+    if(r<600) return '🟡 Moderate';
+    return '🟢 Accessible';
+  }
+  return '';
+}
+
+function sortNITs(btn, by){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let sorted = [...nits];
+  if(by==='nirf') sorted.sort((a,b)=>(a.nirf||99)-(b.nirf||99));
+  if(by==='cutoff') sorted.sort((a,b)=>parseInt(b.cutoff.gen)-parseInt(a.cutoff.gen));
+  if(by==='fees') sorted.sort((a,b)=>a.totalFee-b.totalFee);
+  if(by==='seats') sorted.sort((a,b)=>b.seats-a.seats);
+  renderCards(sorted);
+}
+
+renderCards([...nits].sort((a,b)=>(a.nirf||99)-(b.nirf||99)));
+</script>
+</body>
+</html>
