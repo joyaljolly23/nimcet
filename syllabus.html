@@ -3,12 +3,81 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>NIMCET PrepHub — Syllabus</title>
+  <title>NIMCET PrepHub — Syllabus 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* SUBJECT TABS */
+    .sub-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;}
+    .sub-tab{background:#fff;border:2px solid var(--border);color:var(--text-muted);padding:10px 22px;border-radius:30px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .22s;font-family:inherit;display:flex;align-items:center;gap:7px;}
+    .sub-tab:hover{border-color:var(--teal);color:var(--teal);}
+    .sub-tab.active{background:var(--grad-card);color:#fff;border-color:transparent;box-shadow:var(--shadow-glow);}
+    .sub-tab .pill{background:rgba(255,255,255,.25);border-radius:10px;padding:1px 7px;font-size:.68rem;font-weight:800;}
+    .sub-tab:not(.active) .pill{background:var(--accent2);color:var(--teal);}
+
+    /* SUBJECT PANEL */
+    .sub-panel{display:none;animation:fadeUp .3s ease;}
+    .sub-panel.active{display:block;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    /* SUBJECT HERO BANNER */
+    .sub-banner{border-radius:16px;padding:1.75rem 2rem;margin-bottom:2rem;color:#fff;position:relative;overflow:hidden;}
+    .sub-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.07);border-radius:50%;}
+    .sub-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:.3rem;letter-spacing:-.3px;}
+    .sub-banner p{opacity:.8;font-size:.85rem;line-height:1.6;max-width:600px;}
+    .sub-banner .meta-pills{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap;}
+    .meta-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 12px;font-size:.72rem;font-weight:700;}
+
+    /* PROGRESS SUMMARY */
+    .progress-bar-wrap{background:#fff;border-radius:14px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;box-shadow:var(--shadow-sm);}
+    .prog-label{font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;}
+    .prog-outer{flex:1;min-width:160px;background:var(--surface);border-radius:20px;height:10px;overflow:hidden;}
+    .prog-inner{height:10px;border-radius:20px;background:var(--grad-card);transition:width .6s ease;}
+    .prog-count{font-size:.82rem;font-weight:800;color:var(--teal);white-space:nowrap;}
+    .prog-reset{background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
+    .prog-reset:hover{border-color:var(--teal);color:var(--teal);}
+
+    /* CHAPTER CARDS */
+    .chapters-grid{display:grid;gap:1.1rem;}
+    .chapter-card{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s;}
+    .chapter-card:hover{box-shadow:var(--shadow);}
+    .chapter-header{padding:1.1rem 1.4rem;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
+    .chapter-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .chapter-title{font-size:.95rem;font-weight:800;letter-spacing:-.2px;flex:1;}
+    .chapter-meta{display:flex;align-items:center;gap:.5rem;}
+    .ch-count{font-size:.72rem;color:var(--text-muted);font-weight:600;}
+    .ch-progress{font-size:.72rem;font-weight:800;color:var(--teal);}
+    .ch-chevron{font-size:1rem;color:var(--text-muted);transition:transform .25s;}
+    .chapter-card.open .ch-chevron{transform:rotate(180deg);}
+    .chapter-body{display:none;padding:0 1.4rem 1.2rem;}
+    .chapter-card.open .chapter-body{display:block;}
+
+    /* TOPIC LIST */
+    .topic-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.45rem;margin-bottom:.9rem;}
+    .topic-item{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .18s;background:var(--surface);}
+    .topic-item:hover{border-color:var(--teal);background:var(--accent);}
+    .topic-item.done{background:var(--accent2);border-color:rgba(13,148,136,.25);}
+    .topic-item.done .t-check{background:var(--teal);color:#fff;}
+    .t-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;transition:all .18s;}
+    .topic-item:hover .t-check{border-color:var(--teal);}
+    .t-name{flex:1;line-height:1.3;}
+    .t-imp{font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:8px;flex-shrink:0;}
+
+    /* SUBTOPICS */
+    .subtopic-wrap{margin-top:.5rem;}
+    .subtopic-toggle{background:transparent;border:none;color:var(--teal);font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:4px;margin-bottom:.4rem;}
+    .subtopics{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem;}
+    .stag{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:.72rem;font-weight:500;color:var(--text-muted);}
+
+    /* EXAM INFO STRIP */
+    .exam-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-bottom:2rem;}
+    .es-card{background:#fff;border-radius:12px;border:1px solid var(--border);padding:1rem;text-align:center;box-shadow:var(--shadow-sm);}
+    .es-val{font-size:1.3rem;font-weight:900;color:var(--teal);letter-spacing:-.5px;}
+    .es-lbl{font-size:.72rem;color:var(--text-muted);font-weight:600;margin-top:2px;}
+  </style>
 </head>
 <body>
 
@@ -24,50 +93,125 @@
       <a href="mock-test.html">Mock Test</a>
       <a href="pricing.html">Pricing</a>
     </div>
-    <button class="nav-cta">Start Prep <i class="ti ti-arrow-right"></i></button>
+    <button class="nav-cta">Start Prep &rarr;</button>
   </div>
 </nav>
 
 <div class="page-hero">
-  <h1><i class="ti ti-list"></i> Complete NIMCET Syllabus</h1>
-  <p>Click on a subject to explore all topics with weightage</p>
+  <h1><i class="ti ti-list-check"></i> NIMCET 2026 Syllabus</h1>
+  <p>Complete updated syllabus · Track your progress · Check off topics as you study</p>
 </div>
 
 <div class="section-wrap">
 <div class="section">
-  <div class="syllabus-box">
-    <div class="syllabus-grid">
-      <div class="sub-card" onclick="showTopics('math')">
-        <i class="ti ti-math-function" style="color:#1a73e8"></i>
-        <h3>Mathematics</h3><span>15 Topics · 50% Weightage</span>
-      </div>
-      <div class="sub-card" onclick="showTopics('cs')">
-        <i class="ti ti-cpu" style="color:#0f9d9f"></i>
-        <h3>Computer Science</h3><span>13 Topics · 20% Weightage</span>
-      </div>
-      <div class="sub-card" onclick="showTopics('reasoning')">
-        <i class="ti ti-brain" style="color:#9c27b0"></i>
-        <h3>Analytical Ability</h3><span>10 Topics · 15% Weightage</span>
-      </div>
-      <div class="sub-card" onclick="showTopics('english')">
-        <i class="ti ti-book" style="color:#e67e22"></i>
-        <h3>English</h3><span>8 Topics · 10% Weightage</span>
-      </div>
-      <div class="sub-card" onclick="showTopics('gk')">
-        <i class="ti ti-world" style="color:#e74c3c"></i>
-        <h3>General Knowledge</h3><span>Misc · 5% Weightage</span>
-      </div>
-    </div>
-    <div class="topics-panel" id="topics-panel">
-      <h4 id="panel-title"></h4>
-      <div class="topics-list" id="topics-list"></div>
-    </div>
+
+  <!-- EXAM OVERVIEW -->
+  <div class="exam-strip">
+    <div class="es-card"><div class="es-val">120</div><div class="es-lbl">Total Questions</div></div>
+    <div class="es-card"><div class="es-val">480</div><div class="es-lbl">Maximum Marks</div></div>
+    <div class="es-card"><div class="es-val">+4 / −1</div><div class="es-lbl">Marking Scheme</div></div>
+    <div class="es-card"><div class="es-val">120 min</div><div class="es-lbl">Duration</div></div>
+    <div class="es-card"><div class="es-val">50%</div><div class="es-lbl">Maths Weightage</div></div>
+    <div class="es-card"><div class="es-val">2026</div><div class="es-lbl">Revised Syllabus</div></div>
   </div>
+
+  <!-- SUBJECT TABS -->
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSub('math',this)"><i class="ti ti-math-function"></i> Mathematics <span class="pill">50 Q</span></button>
+    <button class="sub-tab" onclick="showSub('reasoning',this)"><i class="ti ti-brain"></i> Analytical Ability <span class="pill">40 Q</span></button>
+    <button class="sub-tab" onclick="showSub('cs',this)"><i class="ti ti-cpu"></i> Computer Awareness <span class="pill">20 Q</span></button>
+    <button class="sub-tab" onclick="showSub('english',this)"><i class="ti ti-book"></i> General English <span class="pill">10 Q</span></button>
+  </div>
+
+  <!-- ═══ MATHEMATICS ═══ -->
+  <div class="sub-panel active" id="panel-math">
+    <div class="sub-banner" style="background:linear-gradient(135deg,#0a1628,#0f4a47)">
+      <h2><i class="ti ti-math-function"></i> Mathematics</h2>
+      <p>The most critical section — carries 50% of total marks. Strong Mathematics is the single biggest factor in your NIMCET rank. Focus on Calculus, Algebra and Probability first.</p>
+      <div class="meta-pills">
+        <span class="meta-pill">50 Questions</span>
+        <span class="meta-pill">200 Marks</span>
+        <span class="meta-pill">Weighted ×3</span>
+        <span class="meta-pill">6 Major Chapters</span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap" id="prog-math">
+      <span class="prog-label">Your Progress</span>
+      <div class="prog-outer"><div class="prog-inner" id="prog-bar-math" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-text-math">0 / 0 topics</span>
+      <button class="prog-reset" onclick="resetSub('math')">Reset</button>
+    </div>
+    <div class="chapters-grid" id="chapters-math"></div>
+  </div>
+
+  <!-- ═══ REASONING ═══ -->
+  <div class="sub-panel" id="panel-reasoning">
+    <div class="sub-banner" style="background:linear-gradient(135deg,#3b0764,#6d28d9)">
+      <h2><i class="ti ti-brain"></i> Analytical Ability & Logical Reasoning</h2>
+      <p>Second largest section with 40 questions. Covers verbal reasoning, non-verbal puzzles, data interpretation and critical thinking. Regular practice with shortcuts is key.</p>
+      <div class="meta-pills">
+        <span class="meta-pill">40 Questions</span>
+        <span class="meta-pill">160 Marks</span>
+        <span class="meta-pill">Weighted ×1.5</span>
+        <span class="meta-pill">5 Major Chapters</span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap" id="prog-reasoning">
+      <span class="prog-label">Your Progress</span>
+      <div class="prog-outer"><div class="prog-inner" id="prog-bar-reasoning" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-text-reasoning">0 / 0 topics</span>
+      <button class="prog-reset" onclick="resetSub('reasoning')">Reset</button>
+    </div>
+    <div class="chapters-grid" id="chapters-reasoning"></div>
+  </div>
+
+  <!-- ═══ CS ═══ -->
+  <div class="sub-panel" id="panel-cs">
+    <div class="sub-banner" style="background:linear-gradient(135deg,#064e3b,#065f46)">
+      <h2><i class="ti ti-cpu"></i> Computer Awareness</h2>
+      <p>20 questions covering Computer Basics, Data Representation, Hardware, Software, and Internet. Scoring section — most questions are factual and can be cracked with one round of revision.</p>
+      <div class="meta-pills">
+        <span class="meta-pill">20 Questions</span>
+        <span class="meta-pill">80 Marks</span>
+        <span class="meta-pill">Weighted ×2</span>
+        <span class="meta-pill">5 Major Chapters</span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap" id="prog-cs">
+      <span class="prog-label">Your Progress</span>
+      <div class="prog-outer"><div class="prog-inner" id="prog-bar-cs" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-text-cs">0 / 0 topics</span>
+      <button class="prog-reset" onclick="resetSub('cs')">Reset</button>
+    </div>
+    <div class="chapters-grid" id="chapters-cs"></div>
+  </div>
+
+  <!-- ═══ ENGLISH ═══ -->
+  <div class="sub-panel" id="panel-english">
+    <div class="sub-banner" style="background:linear-gradient(135deg,#7c2d12,#9a3412)">
+      <h2><i class="ti ti-book"></i> General English</h2>
+      <p>10 questions that are easy marks if you prepare vocabulary and grammar basics. Reading comprehension, vocabulary, grammar and sentence correction are the key areas.</p>
+      <div class="meta-pills">
+        <span class="meta-pill">10 Questions</span>
+        <span class="meta-pill">40 Marks</span>
+        <span class="meta-pill">Weighted ×1</span>
+        <span class="meta-pill">4 Major Chapters</span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap" id="prog-english">
+      <span class="prog-label">Your Progress</span>
+      <div class="prog-outer"><div class="prog-inner" id="prog-bar-english" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-text-english">0 / 0 topics</span>
+      <button class="prog-reset" onclick="resetSub('english')">Reset</button>
+    </div>
+    <div class="chapters-grid" id="chapters-english"></div>
+  </div>
+
 </div>
 </div>
 
 <footer>
-  <div class="logo"><i class="ti ti-school"></i> NIMCET PrepHub</div>
+  <div class="logo" style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:.75rem"><i class="ti ti-school" style="color:#14b8a6"></i> NIMCET <span style="color:#14b8a6">PrepHub</span></div>
   <p>Your one-stop destination for NIMCET 2026 preparation</p>
   <div class="footer-links">
     <a href="index.html">Home</a><a href="syllabus.html">Syllabus</a>
@@ -77,6 +221,252 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script src="js/syllabus.js"></script>
+<script>
+/* ═══ SYLLABUS DATA ═══ */
+const SYLLABUS = {
+  math:[
+    {id:'m1',icon:'ti-diagram-2',color:'#e8f0fe',ic:'#1a73e8',title:'Set Theory & Logic',topics:[
+      {id:'m1t1',name:'Concept of Sets',imp:'high',sub:['Types of sets','Empty set','Singleton set','Equal sets','Equivalent sets']},
+      {id:'m1t2',name:'Set Operations',imp:'high',sub:['Union','Intersection','Difference','Symmetric Difference','Complement']},
+      {id:'m1t3',name:'Cartesian Product & Cardinality',imp:'med',sub:['Ordered pairs','Cardinality of sets','Power set']},
+      {id:'m1t4',name:'Functions & Relations',imp:'high',sub:['Types of functions','Domain & Range','Composite functions','Inverse functions','Types of relations']},
+      {id:'m1t5',name:'Venn Diagrams',imp:'med',sub:['2-set problems','3-set problems','Applications']},
+      {id:'m1t6',name:'Logic & Truth Tables',imp:'med',sub:['Connectives (AND, OR, NOT)','Tautology','Contradiction','Conditional','Biconditional']},
+    ]},
+    {id:'m2',icon:'ti-chart-bar',color:'#fef3c7',ic:'#d97706',title:'Probability & Statistics',topics:[
+      {id:'m2t1',name:'Basic Probability Theory',imp:'high',sub:['Sample space','Events','Classical probability','Conditional probability']},
+      {id:'m2t2',name:'Dependent & Independent Events',imp:'high',sub:['Multiplication theorem','Addition theorem','Mutually exclusive events']},
+      {id:'m2t3',name:'Bayes\' Theorem',imp:'high',sub:['Total probability','Posterior probability','Applications']},
+      {id:'m2t4',name:'Averages — Mean, Median, Mode',imp:'high',sub:['Arithmetic mean','Weighted mean','Median for grouped data','Mode','Combined mean']},
+      {id:'m2t5',name:'Dispersion',imp:'med',sub:['Mean deviation','Standard deviation','Variance','Coefficient of variation']},
+      {id:'m2t6',name:'Moments & Frequency Distributions',imp:'med',sub:['Raw moments','Central moments','Frequency tables','Cumulative frequency']},
+    ]},
+    {id:'m3',icon:'ti-function',color:'#f0fdf4',ic:'#059669',title:'Algebra',topics:[
+      {id:'m3t1',name:'Quadratic Equations',imp:'high',sub:['Roots & coefficients','Nature of roots','Sum & product of roots','Symmetric functions']},
+      {id:'m3t2',name:'Indices, Logarithms & Exponentials',imp:'med',sub:['Laws of indices','Logarithmic identities','Change of base']},
+      {id:'m3t3',name:'Progressions',imp:'high',sub:['AP — nth term & sum','GP — nth term & sum','HP','AM-GM-HM inequality','Mixed progressions']},
+      {id:'m3t4',name:'Finite Sums & Series',imp:'med',sub:['Sum of natural numbers','Sum of squares','Sum of cubes']},
+      {id:'m3t5',name:'Matrices & Determinants',imp:'high',sub:['Matrix operations','Determinant','Inverse of matrix','Adjoint','Rank','Cramer\'s rule']},
+      {id:'m3t6',name:'Simultaneous Linear Equations',imp:'high',sub:['Consistency','Homogeneous systems','Matrix method','Gaussian elimination']},
+      {id:'m3t7',name:'Permutations & Combinations',imp:'high',sub:['nPr and nCr formulae','Circular permutation','Restricted P&C','Distribution problems']},
+      {id:'m3t8',name:'Binomial Theorem',imp:'med',sub:['General term','Middle term','Coefficient of xⁿ','Properties of binomial coefficients']},
+    ]},
+    {id:'m4',icon:'ti-vector',color:'#fce4ec',ic:'#c62828',title:'Coordinate Geometry',topics:[
+      {id:'m4t1',name:'Straight Lines',imp:'high',sub:['Slope','Various forms of equation','Angle between lines','Distance of point from line','Pair of straight lines']},
+      {id:'m4t2',name:'Circles',imp:'high',sub:['Standard form','General form','Tangent to circle','Normal','Chord of contact']},
+      {id:'m4t3',name:'Parabola',imp:'med',sub:['Standard parabola','Tangent & normal','Chord properties','Focus-directrix']},
+      {id:'m4t4',name:'Ellipse',imp:'med',sub:['Standard ellipse','Eccentricity','Tangent & normal','Auxiliary circle']},
+      {id:'m4t5',name:'Hyperbola',imp:'med',sub:['Standard hyperbola','Asymptotes','Tangent & normal','Rectangular hyperbola']},
+      {id:'m4t6',name:'Section Formula & Distance',imp:'low',sub:['Midpoint formula','Section formula','Centroid','Distance formula']},
+    ]},
+    {id:'m5',icon:'ti-math-integral-x',color:'#e0f2fe',ic:'#0284c7',title:'Calculus',topics:[
+      {id:'m5t1',name:'Limits of Functions',imp:'high',sub:['Left & right limits','Limits at infinity','Standard limits','L\'Hôpital rule','Sandwich theorem']},
+      {id:'m5t2',name:'Continuity',imp:'med',sub:['Definition','Types of discontinuity','Intermediate Value Theorem']},
+      {id:'m5t3',name:'Differentiation',imp:'high',sub:['Rules of differentiation','Chain rule','Implicit differentiation','Logarithmic differentiation','Parametric differentiation']},
+      {id:'m5t4',name:'Applications of Differentiation',imp:'high',sub:['Tangent & Normal','Maxima & Minima','Increasing & decreasing functions','Rolle\'s Theorem','Mean Value Theorem']},
+      {id:'m5t5',name:'Integration',imp:'high',sub:['By parts','By substitution','By partial fractions','Definite integrals','Properties of definite integrals']},
+      {id:'m5t6',name:'Applications of Integration',imp:'med',sub:['Area between curves','Area under curve','Odd & even function integrals','Periodic function integrals']},
+    ]},
+    {id:'m6',icon:'ti-angle',color:'#f3e5f5',ic:'#9c27b0',title:'Trigonometry',topics:[
+      {id:'m6t1',name:'Trigonometric Functions & Identities',imp:'high',sub:['Basic identities','Sum & difference formulae','Double & half angle','Product formulae']},
+      {id:'m6t2',name:'Inverse Trigonometric Functions',imp:'med',sub:['Principal values','Properties','Domain & range','Composition identities']},
+      {id:'m6t3',name:'Properties of Triangles',imp:'med',sub:['Sine rule','Cosine rule','Tangent rule','Area of triangle','Circumradius & inradius']},
+      {id:'m6t4',name:'Solution of Triangles',imp:'med',sub:['Finding unknown sides/angles','Ambiguous case']},
+      {id:'m6t5',name:'Heights & Distances',imp:'high',sub:['Angle of elevation','Angle of depression','Problems with two observers']},
+      {id:'m6t6',name:'Trigonometric Equations',imp:'high',sub:['General solutions','Principal solutions','Equations of form sinθ=k','Equations involving multiple angles']},
+    ]},
+  ],
+  reasoning:[
+    {id:'r1',icon:'ti-users',color:'#f3e5f5',ic:'#9c27b0',title:'Verbal Reasoning',topics:[
+      {id:'r1t1',name:'Blood Relations',imp:'high',sub:['Family tree problems','Coded relations','Mixed relation chains']},
+      {id:'r1t2',name:'Coding-Decoding',imp:'high',sub:['Letter shifting','Number coding','Symbol coding','Word coding']},
+      {id:'r1t3',name:'Direction Test',imp:'med',sub:['8-direction problems','Shadow problems','Distance calculations']},
+      {id:'r1t4',name:'Syllogism',imp:'high',sub:['All/Some/No statements','Venn diagram method','Conclusions validity']},
+      {id:'r1t5',name:'Statements & Conclusions/Arguments',imp:'med',sub:['Strong/Weak arguments','Assumptions','Course of action']},
+    ]},
+    {id:'r2',icon:'ti-puzzle',color:'#e8f0fe',ic:'#1a73e8',title:'Seating Arrangement & Puzzles',topics:[
+      {id:'r2t1',name:'Linear Seating Arrangement',imp:'high',sub:['Single row','Double row facing each other','Complex conditions']},
+      {id:'r2t2',name:'Circular Seating Arrangement',imp:'high',sub:['Same direction','Opposite direction','Mixed problems']},
+      {id:'r2t3',name:'Complex Puzzles',imp:'high',sub:['Floor-based puzzles','Box puzzles','Scheduling puzzles']},
+      {id:'r2t4',name:'Input-Output',imp:'med',sub:['Number/word based shifting','Pattern identification']},
+    ]},
+    {id:'r3',icon:'ti-list-numbers',color:'#fef3c7',ic:'#d97706',title:'Series & Alphanumeric',topics:[
+      {id:'r3t1',name:'Number Series',imp:'high',sub:['Arithmetic series','Geometric series','Mixed operations','Difference series','Prime-based series']},
+      {id:'r3t2',name:'Letter/Alphabet Series',imp:'high',sub:['Position-based','Skipping letters','Reverse series']},
+      {id:'r3t3',name:'Alphanumeric Series',imp:'med',sub:['Mixed letter-number patterns','Word-based series']},
+      {id:'r3t4',name:'Odd One Out & Analogies',imp:'med',sub:['Number analogies','Word analogies','Letter analogies']},
+    ]},
+    {id:'r4',icon:'ti-chart-pie',color:'#e0f7fa',ic:'#0f9d9f',title:'Data Interpretation & Numerical Reasoning',topics:[
+      {id:'r4t1',name:'Bar Graphs & Line Charts',imp:'high',sub:['Reading values','Percentage change','Ratios & comparisons']},
+      {id:'r4t2',name:'Pie Charts',imp:'high',sub:['Central angle','Percentage calculation','Combined charts']},
+      {id:'r4t3',name:'Tables & Data Sufficiency',imp:'high',sub:['Reading tabular data','Two-statement sufficiency','Three-statement sufficiency']},
+      {id:'r4t4',name:'Numerical Reasoning',imp:'med',sub:['Percentages','Profit & Loss','Time & Work','Time & Distance','Simple & Compound Interest']},
+    ]},
+    {id:'r5',icon:'ti-eye',color:'#fce4ec',ic:'#c62828',title:'Non-Verbal & Critical Reasoning',topics:[
+      {id:'r5t1',name:'Mirror Images',imp:'med',sub:['Letter & number mirrors','Clock mirror','Figure mirrors']},
+      {id:'r5t2',name:'Deductive & Inductive Reasoning',imp:'med',sub:['Premise-conclusion','If-then logic','Inductive patterns']},
+      {id:'r5t3',name:'Critical Thinking',imp:'med',sub:['Assumption identification','Strengthening/Weakening arguments','Inference-based questions']},
+      {id:'r5t4',name:'Data Visualization',imp:'med',sub:['Venn diagram interpretation','Matrix-based problems','Figure-based reasoning']},
+    ]},
+  ],
+  cs:[
+    {id:'c1',icon:'ti-cpu',color:'#e0f7fa',ic:'#0f9d9f',title:'Computer Basics & Organisation',topics:[
+      {id:'c1t1',name:'Organisation of a Computer',imp:'high',sub:['Von Neumann architecture','Components of a computer','Functional units']},
+      {id:'c1t2',name:'Central Processing Unit (CPU)',imp:'high',sub:['ALU','Control Unit','Registers','Instruction cycle','Fetch-Decode-Execute']},
+      {id:'c1t3',name:'Structure of Instructions',imp:'med',sub:['Instruction format','Addressing modes','Instruction set']},
+      {id:'c1t4',name:'Input/Output Devices',imp:'med',sub:['Keyboard, mouse, scanner','Monitor, printer','I/O interfaces','Interrupt-driven I/O','Programmed I/O']},
+      {id:'c1t5',name:'Computer Memory & Backup',imp:'high',sub:['Memory hierarchy','Cache memory','Primary vs secondary memory','Backup devices']},
+    ]},
+    {id:'c2',icon:'ti-binary',color:'#e8f0fe',ic:'#1a73e8',title:'Data Representation',topics:[
+      {id:'c2t1',name:'Number Systems',imp:'high',sub:['Binary','Octal','Decimal','Hexadecimal','Inter-conversions']},
+      {id:'c2t2',name:'Binary Arithmetic',imp:'high',sub:['Addition','Subtraction','Multiplication','Division','2\'s complement arithmetic']},
+      {id:'c2t3',name:'Representation of Characters & Integers',imp:'med',sub:['ASCII & Unicode','Sign-magnitude','1\'s complement','2\'s complement']},
+      {id:'c2t4',name:'Floating Point Representation',imp:'high',sub:['IEEE 754 standard','Sign, exponent, mantissa','Single & double precision']},
+      {id:'c2t5',name:'Boolean Algebra',imp:'high',sub:['Laws & theorems','Logic gates (AND, OR, NOT, NAND, NOR, XOR, XNOR)','Boolean expressions','Simplification using K-map']},
+    ]},
+    {id:'c3',icon:'ti-device-desktop',color:'#fef3c7',ic:'#d97706',title:'Computer Hardware',topics:[
+      {id:'c3t1',name:'Input Devices',imp:'low',sub:['Keyboard types','Mouse variants','Scanner','Barcode reader','Touchscreen']},
+      {id:'c3t2',name:'Output Devices',imp:'low',sub:['Monitor types (CRT, LCD, LED)','Printer types (Laser, Inkjet, Dot matrix)','Speakers, Projectors']},
+      {id:'c3t3',name:'Storage Devices',imp:'med',sub:['Hard drives (HDD)','Solid State Drives (SSD)','USB drives','Optical disks (CD/DVD/Blu-ray)']},
+      {id:'c3t4',name:'Memory — RAM, ROM, Cache',imp:'high',sub:['RAM types (SRAM, DRAM)','ROM types (PROM, EPROM, EEPROM)','Cache memory levels','Virtual memory']},
+    ]},
+    {id:'c4',icon:'ti-device-laptop',color:'#f0fdf4',ic:'#059669',title:'Computer Software',topics:[
+      {id:'c4t1',name:'Operating Systems',imp:'high',sub:['Windows features','macOS basics','Linux commands','Android OS','Process management','Memory management']},
+      {id:'c4t2',name:'System Software',imp:'med',sub:['Utility programs','Device drivers','Compilers & interpreters','Assemblers','Linkers & loaders']},
+      {id:'c4t3',name:'Application Software',imp:'low',sub:['Word processors','Spreadsheets','Presentation software','DBMS basics']},
+    ]},
+    {id:'c5',icon:'ti-world',color:'#fce4ec',ic:'#c62828',title:'Internet & Email',topics:[
+      {id:'c5t1',name:'How the Internet Works',imp:'med',sub:['IP address','DNS','HTTP/HTTPS','TCP/IP model','Web browsers']},
+      {id:'c5t2',name:'Email Basics',imp:'low',sub:['Sending & receiving emails','CC, BCC','Attachments','Email protocols (SMTP, POP3, IMAP)']},
+      {id:'c5t3',name:'Online Security',imp:'med',sub:['Malware, Virus, Trojans','Phishing & social engineering','Firewalls','Passwords & encryption','Safe browsing practices']},
+    ]},
+  ],
+  english:[
+    {id:'e1',icon:'ti-book',color:'#fef3c7',ic:'#d97706',title:'Reading Comprehension',topics:[
+      {id:'e1t1',name:'Main Idea & Theme',imp:'high',sub:['Identifying central idea','Author\'s purpose','Title selection']},
+      {id:'e1t2',name:'Detail-based Questions',imp:'high',sub:['Direct facts','Inference-based','Tone & mood']},
+      {id:'e1t3',name:'Vocabulary in Context',imp:'med',sub:['Word meaning from context','Synonyms in passage','Antonyms in passage']},
+    ]},
+    {id:'e2',icon:'ti-abc',color:'#e8f0fe',ic:'#1a73e8',title:'Vocabulary',topics:[
+      {id:'e2t1',name:'Synonyms & Antonyms',imp:'high',sub:['High-frequency word pairs','Contextual synonyms','Confusing antonyms']},
+      {id:'e2t2',name:'Idioms & Phrases',imp:'med',sub:['Common idioms','Phrasal verbs','One-word substitution']},
+      {id:'e2t3',name:'Word Formation',imp:'low',sub:['Prefixes & suffixes','Root words','Noun/Verb/Adjective forms']},
+    ]},
+    {id:'e3',icon:'ti-pencil',color:'#f0fdf4',ic:'#059669',title:'Grammar',topics:[
+      {id:'e3t1',name:'Sentence Correction & Error Detection',imp:'high',sub:['Subject-verb agreement','Tense usage','Prepositions','Articles']},
+      {id:'e3t2',name:'Fill in the Blanks',imp:'high',sub:['Vocabulary-based','Grammar-based','Contextual usage']},
+      {id:'e3t3',name:'Direct & Indirect Speech',imp:'med',sub:['Reporting verbs','Tense changes','Pronoun changes']},
+      {id:'e3t4',name:'Active & Passive Voice',imp:'med',sub:['Simple tenses','Perfect tenses','Modal verbs']},
+    ]},
+    {id:'e4',icon:'ti-writing',color:'#fce4ec',ic:'#c62828',title:'Technical Writing',topics:[
+      {id:'e4t1',name:'Technical Communication Basics',imp:'med',sub:['Formal vs informal writing','Business letters','Report writing']},
+      {id:'e4t2',name:'Accuracy & Fluency',imp:'med',sub:['Sentence structure','Paragraph writing','Coherence & cohesion']},
+    ]},
+  ],
+};
+
+/* ═══ TRACKER ═══ */
+const STORE_KEY = 'nimcet_syllabus_v2';
+let done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+function saveDone(){localStorage.setItem(STORE_KEY,JSON.stringify(done));}
+
+/* ═══ RENDER ═══ */
+function renderAll(){
+  Object.keys(SYLLABUS).forEach(sub=>renderSub(sub));
+}
+
+function renderSub(sub){
+  const container=document.getElementById('chapters-'+sub);
+  if(!container)return;
+  container.innerHTML='';
+  SYLLABUS[sub].forEach(ch=>{
+    const total=ch.topics.length;
+    const completed=ch.topics.filter(t=>done[t.id]).length;
+    const pct=total?Math.round(completed/total*100):0;
+    const card=document.createElement('div');
+    card.className='chapter-card';
+    card.innerHTML=`
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-icon" style="background:${ch.color}"><i class="ti ${ch.icon}" style="color:${ch.ic};font-size:1.1rem"></i></div>
+        <div class="chapter-title">${ch.title}</div>
+        <div class="chapter-meta">
+          <span class="ch-count">${total} topics</span>
+          <span class="ch-progress">${completed}/${total}</span>
+          <i class="ti ti-chevron-down ch-chevron"></i>
+        </div>
+      </div>
+      <div class="chapter-body">
+        <div style="margin-bottom:.9rem">
+          <div style="height:6px;background:var(--surface);border-radius:20px;overflow:hidden">
+            <div style="height:6px;width:${pct}%;background:linear-gradient(90deg,${ch.ic},var(--teal));border-radius:20px;transition:width .4s"></div>
+          </div>
+          <span style="font-size:.72rem;color:var(--text-muted);font-weight:600;margin-top:3px;display:inline-block">${pct}% completed</span>
+        </div>
+        <div class="topic-list">
+          ${ch.topics.map(t=>topicHTML(t,sub,ch.id)).join('')}
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+  updateProgress(sub);
+}
+
+function topicHTML(t,sub,chId){
+  const isDone=!!done[t.id];
+  const impColor={high:'#fee2e2;color:#dc2626',med:'#fef3c7;color:#d97706',low:'#e8f0fe;color:#1a73e8'}[t.imp]||'';
+  const impLabel={high:'High',med:'Medium',low:'Low'}[t.imp];
+  const subtopicsHTML=t.sub&&t.sub.length?`
+    <div class="subtopic-wrap">
+      <div class="subtopics">${t.sub.map(s=>`<span class="stag">${s}</span>`).join('')}</div>
+    </div>`:''
+  return `<div class="topic-item${isDone?' done':''}" onclick="toggleTopic('${t.id}','${sub}')" id="ti-${t.id}">
+    <div class="t-check">${isDone?'<i class="ti ti-check" style="font-size:.65rem"></i>':''}</div>
+    <div>
+      <div class="t-name">${t.name}</div>
+      ${subtopicsHTML}
+    </div>
+    <span class="t-imp" style="background:${impColor}">${impLabel}</span>
+  </div>`;
+}
+
+function toggleTopic(id,sub){
+  done[id]=!done[id];
+  saveDone();
+  renderSub(sub);
+  // reopen current open chapters
+}
+
+function toggleChapter(header){
+  const card=header.parentElement;
+  card.classList.toggle('open');
+}
+
+function updateProgress(sub){
+  const all=SYLLABUS[sub].flatMap(c=>c.topics);
+  const total=all.length;
+  const completed=all.filter(t=>done[t.id]).length;
+  const pct=total?Math.round(completed/total*100):0;
+  const bar=document.getElementById('prog-bar-'+sub);
+  const txt=document.getElementById('prog-text-'+sub);
+  if(bar)bar.style.width=pct+'%';
+  if(txt)txt.textContent=`${completed} / ${total} topics (${pct}%)`;
+}
+
+function resetSub(sub){
+  if(!confirm('Reset all progress for this subject?'))return;
+  SYLLABUS[sub].forEach(ch=>ch.topics.forEach(t=>{delete done[t.id];}));
+  saveDone();
+  renderSub(sub);
+}
+
+function showSub(sub,btn){
+  document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+sub).classList.add('active');
+}
+
+renderAll();
+</script>
 </body>
 </html>
